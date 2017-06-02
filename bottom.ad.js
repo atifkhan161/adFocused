@@ -6,6 +6,7 @@
     }
 }(function($) {
     var adUrl = "ads.mp4";
+    mininiseAfter = 5000; //5 sec
     var player;
     $(document).ready(function() {
         setTimeout(function() { loadPopupAd(); }, 5000);
@@ -40,18 +41,15 @@
             background: "#424242",
             opacity: "0.6"
         }
+        var spanString = '<span style="color: white;font-size: 15px;margin-left: 1%;">Advertisement</span>';
+        spanString += '<span id="spanStatus" style="color: white;font-size: 15px;float:right">Close in ' + (mininiseAfter / 1000) + '>></span>';
+
         var divOwerlay = $('<div/>')
             .attr("id", "newDivOwerlay")
-            .css(omniOverlay, owClosed);
+            .css(omniOverlay, owClosed)
+            .append(spanString);
 
-
-        // var video = $('<video id="adgfullscreen" class="video-js vjs-default-skin" controls preload="auto" width="640" height="264"  data-setup="{}"/>', {
-        //     id: 'add-fullscreen',
-        //     src: adUrl,
-        //     type: 'video/mp4',
-        //     controls: true
-        // });
-        var vastDiv = $('<div/>').attr("id", "newVastDiv").css("position", "relative");
+        var vastDiv = $('<div/>').attr("id", "newVastDiv").css("position", "relative").css("border", "1px solid black");
 
         var divModal = $('<div/>')
             .attr("id", "newDivModal")
@@ -62,19 +60,19 @@
         $(divModal).omniWindow({
                 callbacks: {
                     afterShow: function(subjects, internalCallback) {
-                        // player = videojs('#adgfullscreen', {
-                        //     controls: true,
-                        //     sources: [{ src: 'ads.mp4', type: 'video/mp4' }],
-                        //     techOrder: ['html5']
-                        // });
-                        // player.play();
-                        // player.width($(divModal).width()).height($(divModal).height());
-                        // player.on('ended', function() {
-                        //     $(divModal).hide();
-                        //     $(divOwerlay).hide();
-                        // });
                         var player = new VASTPlayer(document.getElementById('newVastDiv'));
-
+                        var counter = setInterval(function() {
+                            if (mininiseAfter > 0) {
+                                mininiseAfter = mininiseAfter - 1000;
+                                $("#spanStatus").text('Close in ' + (mininiseAfter / 1000) + '>>');
+                            } else {
+                                $("#spanStatus").text('Close >>').click(function() {
+                                    $(divModal).hide();
+                                    $(divOwerlay).hide();
+                                }).css('cursor', 'pointer');
+                                clearInterval(counter);
+                            }
+                        }, 1000);
                         player.once('AdStopped', function() {
                             $(divModal).hide();
                             $(divOwerlay).hide();

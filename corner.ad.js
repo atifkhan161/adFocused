@@ -7,6 +7,23 @@
 }(function($) {
     var adUrl = "ads.mp4";
     var player;
+    var svgTab = `<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<svg width="70px" height="22px" viewBox="0 0 70 22" version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
+    <!-- Generator: Sketch 3.7 (28169) - http://www.bohemiancoding.com/sketch -->
+    <title>tab</title>
+    <desc>Created with Sketch.</desc>
+    <defs></defs>
+    <g id="Normal-state" stroke="none" stroke-width="1" fill="none" fill-rule="evenodd">
+        <g id="Slider-with-white-video" transform="translate(-44.000000, -20.000000)">
+            <g id="tab" transform="translate(44.000000, 20.000000)">
+                <polygon fill="#3C3B3D" points="18.7804878 0 0 22 70 22 51.2195122 0"></polygon>
+                <path d="M20.8763908,16.5 L48.8763908,16.5" id="Line" stroke="#FFFFFF" stroke-width="3" stroke-linecap="square"></path>
+                <path d="M20.8763908,11.5 L48.8763908,11.5" id="Line" stroke="#FFFFFF" stroke-width="3" stroke-linecap="square"></path>
+                <path d="M20.8763908,6.5 L48.8763908,6.5" id="Line" stroke="#FFFFFF" stroke-width="3" stroke-linecap="square"></path>
+            </g>
+        </g>
+    </g>
+</svg>`;
     $(document).ready(function() {
         setTimeout(function() { loadPopupAd(); }, 5000);
 
@@ -26,6 +43,7 @@
             overflow: "hidden",
             "max-width": "450px"
         };
+
         var owClosed = {
             display: "none"
         };
@@ -40,44 +58,31 @@
             background: "#424242",
             opacity: "0.6"
         }
-        var divOwerlay = $('<div/>')
-            .attr("id", "newDivOwerlay")
-            .css(omniOverlay, owClosed);
 
+        var vastDiv = $('<div/>').attr("id", "newVastDiv").css("position", "relative").css("border", "1px solid black");
 
-        // var video = $('<video id="adgfullscreen" class="video-js vjs-default-skin" controls preload="auto" width="640" height="264"  data-setup="{}"/>', {
-        //     id: 'add-fullscreen',
-        //     src: adUrl,
-        //     type: 'video/mp4',
-        //     controls: true
-        // });
-        var vastDiv = $('<div/>').attr("id", "newVastDiv").css("position", "relative");
+        var spanString = '<div id="dragTab" >' + svgTab + '</div>';
+        var divAdv = $('<div style="width: 100%;height:20px;cursor:move;"/>')
+            .html(spanString)
+            .attr("id", "newDivAdBar")
+            // .css();
 
         var divModal = $('<div/>')
             .attr("id", "newDivModal")
             .css(modal, owClosed)
+            .append(divAdv)
             .append(vastDiv);
 
-        $("body").append(divModal, divOwerlay);
+        $("body").append(divModal);
+        $(divModal).tinyDraggable({ handle: '#dragTab' });
+
         $(divModal).omniWindow({
                 callbacks: {
                     afterShow: function(subjects, internalCallback) {
-                        // player = videojs('#adgfullscreen', {
-                        //     controls: true,
-                        //     sources: [{ src: 'ads.mp4', type: 'video/mp4' }],
-                        //     techOrder: ['html5']
-                        // });
-                        // player.play();
-                        // player.width($(divModal).width()).height($(divModal).height());
-                        // player.on('ended', function() {
-                        //     $(divModal).hide();
-                        //     $(divOwerlay).hide();
-                        // });
                         var player = new VASTPlayer(document.getElementById('newVastDiv'));
 
                         player.once('AdStopped', function() {
                             $(divModal).hide();
-                            $(divOwerlay).hide();
                             console.log('Ad finished playback!');
                         });
 

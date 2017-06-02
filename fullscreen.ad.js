@@ -44,16 +44,9 @@
             .attr("id", "newDivOwerlay")
             .css(omniOverlay, owClosed);
 
-
-        // var video = $('<video id="adgfullscreen" class="video-js vjs-default-skin" controls preload="auto"   data-setup="{}"/>', {
-        //     id: 'add-fullscreen',
-        //     src: adUrl,
-        //     type: 'video/mp4',
-        //     controls: true
-        // });
-        var vastDiv = $('<div/>').attr("id", "newVastDiv").css("position", "relative");
-        var spanString = '<span style="color: white;font-size: 15px;margin-left: 45%;">Advertise</span>';
-        spanString += '<span id="spanStatus" style="color: white;font-size: 15px;float:right">Minimise in ' + (mininiseAfter / 1000) + '>></span>';
+        var vastDiv = $('<div/>').attr("id", "newVastDiv").css("position", "relative").css("border", "1px solid black");
+        var spanString = '<span style="color: white;font-size: 15px;margin-left: 45%;">Advertisement</span>';
+        spanString += '<span id="spanStatus" style="color: white;font-size: 15px;float:right">Continue to Site in ' + (mininiseAfter / 1000) + '>></span>';
         var divAdv = $('<div style="width: 100%;height:20px"/>')
             .html(spanString)
             .attr("id", "newDivAdBar")
@@ -68,29 +61,19 @@
         $(divModal).omniWindow({
                 callbacks: {
                     afterShow: function(subjects, internalCallback) {
-                        // player = videojs('#adgfullscreen', {
-                        //     controls: true,
-                        //     sources: [{ src: adUrl, type: 'video/mpd' }],
-                        //     techOrder: ['html5']
-                        // });
-                        // player.play();
                         var counter = setInterval(function() {
                             if (mininiseAfter > 0) {
                                 mininiseAfter = mininiseAfter - 1000;
-                                $("#spanStatus").text('Minimise in ' + (mininiseAfter / 1000) + '>>');
+                                $("#spanStatus").text('Continue to Site in ' + (mininiseAfter / 1000) + '>>');
                             } else {
-                                $("#spanStatus").text('Close >>').click(function() {
+                                $("#spanStatus").text('Continue to Site >>').click(function() {
                                     $(divModal).hide();
                                     $(divOwerlay).hide();
                                 }).css('cursor', 'pointer');
                                 clearInterval(counter);
                             }
                         }, 1000);
-                        // player.width($(divModal).width()).height($(divModal).height() - 20);
-                        // player.on('ended', function() {
-                        //     $(divModal).hide();
-                        //     $(divOwerlay).hide();
-                        // });
+
                         var player = new VASTPlayer(document.getElementById('newVastDiv'));
 
                         player.once('AdStopped', function() {

@@ -9,7 +9,8 @@
     var mininiseAfter = 5000; //5 sec
     var player,
         divOwerlay,
-        divModal;
+        divModal,
+        divAdv;
 
     $(document).ready(function() {
         setTimeout(function() { loadPopupAd(); }, 5000);
@@ -49,35 +50,24 @@
             .attr("id", "newDivOwerlay")
             .css(omniOverlay, owClosed);
 
+        var vastDiv = $('<div/>').attr("id", "newVastDiv").css("position", "relative").css("border", "1px solid black");
 
-        // var video = $('<video id="adgfullscreen" class="video-js vjs-default-skin" controls preload="auto"   data-setup="{}"/>', {
-        //     id: 'add-fullscreen',
-        //     src: adUrl,
-        //     type: 'video/mp4',
-        //     controls: true
-        // });
-        var vastDiv = $('<div/>').attr("id", "newVastDiv").css("position", "relative");
-
+        var spanString = '<span style="color: white;font-size: 15px;margin-left: 45%;">Advertisement</span>';
+        spanString += '<span id="spanStatus" style="color: white;font-size: 15px;float:right">Minimize in ' + (mininiseAfter / 1000) + '>></span>';
+        divAdv = $('<div style="width: 100%;height:20px"/>')
+            .html(spanString)
+            .attr("id", "newDivAdBar")
+            // .css();
         divModal = $('<div/>')
             .attr("id", "newDivModal")
             .css(modal, owClosed)
+            .append(divAdv)
             .append(vastDiv);
 
         $("body").append(divModal, divOwerlay);
         $(divModal).omniWindow({
                 callbacks: {
                     afterShow: function(subjects, internalCallback) {
-                        // player = videojs('#adgfullscreen', {
-                        //     controls: true,
-                        //     sources: [{ src: 'ads.mp4', type: 'video/mp4' }],
-                        //     techOrder: ['html5']
-                        // });
-                        // player.width($(divModal).width()).height($(divModal).height());
-                        // player.play();
-                        // player.on('ended', function() {
-                        //     $(divModal).hide();
-                        //     $(divOwerlay).hide();
-                        // });
                         var player = new VASTPlayer(document.getElementById('newVastDiv'));
 
                         player.once('AdStopped', function() {
@@ -95,8 +85,18 @@
                                 throw reason;
                             }, 0);
                         });
-                        //Minimise after 5 sec
-                        setTimeout(function() { minimisePopUp(); }, mininiseAfter);
+
+                        var counter = setInterval(function() {
+                            if (mininiseAfter > 0) {
+                                mininiseAfter = mininiseAfter - 1000;
+                                $("#spanStatus").text('Minimize in ' + (mininiseAfter / 1000) + '>>');
+                            } else {
+                                $("#spanStatus").text('Minimize >>').click(function() {
+                                    minimisePopUp();
+                                }).css('cursor', 'pointer');
+                                clearInterval(counter);
+                            }
+                        }, 1000);
 
                         return internalCallback(subjects); // call internal callback 
                     },
@@ -132,5 +132,6 @@
         $(divModal).css(modal).css('top', "").css('left', "");
         // player.width($(divModal).width()).height($(divModal).height());
         $(divOwerlay).remove();
+        $(divAdv).remove();
     }
 }));

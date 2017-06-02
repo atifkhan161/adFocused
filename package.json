@@ -1,0 +1,11 @@
+{
+    "name": "modalad-webapp",
+    "description": "A Web app that display vast ads.",
+    "scripts": {
+        "start": "harp server --port $PORT"
+    },
+    "dependencies": {
+        "harp": "*"
+    },
+    "version": "0.0.1"
+}

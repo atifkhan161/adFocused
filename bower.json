@@ -1,0 +1,17 @@
+{
+  "name": "modalAds",
+  "authors": [
+    "e067616 <Atif.Khan@mastercard.com>"
+  ],
+  "description": "",
+  "main": "",
+  "license": "MIT",
+  "homepage": "",
+  "ignore": [
+    "**/.*",
+    "node_modules",
+    "bower_components",
+    "test",
+    "tests"
+  ]
+}

@@ -440,23 +440,7 @@
         }
 
         function dragDivs() {
-            var svgTab = `<?xml version="1.0" encoding="UTF-8" standalone="no"?>
-                            <svg width="70px" height="22px" viewBox="0 0 70 22" version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
-                                <!-- Generator: Sketch 3.7 (28169) - http://www.bohemiancoding.com/sketch -->
-                                <title>tab</title>
-                                <desc>Created with Sketch.</desc>
-                                <defs></defs>
-                                <g id="Normal-state" stroke="none" stroke-width="1" fill="none" fill-rule="evenodd">
-                                    <g id="Slider-with-white-video" transform="translate(-44.000000, -20.000000)">
-                                        <g id="tab" transform="translate(44.000000, 20.000000)">
-                                            <polygon fill="#3C3B3D" points="18.7804878 0 0 22 70 22 51.2195122 0"></polygon>
-                                            <path d="M20.8763908,16.5 L48.8763908,16.5" id="Line" stroke="#FFFFFF" stroke-width="3" stroke-linecap="square"></path>
-                                            <path d="M20.8763908,11.5 L48.8763908,11.5" id="Line" stroke="#FFFFFF" stroke-width="3" stroke-linecap="square"></path>
-                                            <path d="M20.8763908,6.5 L48.8763908,6.5" id="Line" stroke="#FFFFFF" stroke-width="3" stroke-linecap="square"></path>
-                                        </g>
-                                    </g>
-                                </g>
-                            </svg>`;
+            var svgTab = '<?xml version="1.0" encoding="UTF-8" standalone="no"?> <svg width="70px" height="22px" viewBox="0 0 70 22" version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink"><!-- Generator: Sketch 3.7 (28169) - http://www.bohemiancoding.com/sketch --><title>tab</title><desc>Created with Sketch.</desc> <defs></defs><g id="Normal-state" stroke="none" stroke-width="1" fill="none" fill-rule="evenodd"><g id="Slider-with-white-video" transform="translate(-44.000000, -20.000000)"><g id="tab" transform="translate(44.000000, 20.000000)"><polygon fill="#3C3B3D" points="18.7804878 0 0 22 70 22 51.2195122 0"></polygon><path d="M20.8763908,16.5 L48.8763908,16.5" id="Line" stroke="#FFFFFF" stroke-width="3" stroke-linecap="square"></path> <path d="M20.8763908,11.5 L48.8763908,11.5" id="Line" stroke="#FFFFFF" stroke-width="3" stroke-linecap="square"></path><path d="M20.8763908,6.5 L48.8763908,6.5" id="Line" stroke="#FFFFFF" stroke-width="3" stroke-linecap="square"></path> </g> </g></g></svg>';
 
             var modal = {
                 position: "fixed",

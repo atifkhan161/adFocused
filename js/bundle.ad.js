@@ -216,10 +216,24 @@
                 minimiseDivs();
                 break;
         }
-        $(divModal).omniWindow({
+
+        var player = new VASTPlayer(document.getElementById('newVastDiv'));
+
+        player.once('AdStopped', function() {
+            $(divModal).hide();
+            $(divOwerlay).hide();
+            console.log('Ad finished playback!');
+        });
+
+        player.load(
+            adUrl
+        ).then(function startAd() {
+
+            return $(divModal).omniWindow({
                 callbacks: {
                     afterShow: function(subjects, internalCallback) {
-
+                        $(divModal).show();
+                        $(divOwerlay).show();
                         switch (mode) {
                             case "fullscreen":
                                 var counter = setInterval(function() {
@@ -230,6 +244,7 @@
                                         $("#spanStatus").text('Continue to Site >>').click(function() {
                                             $(divModal).hide();
                                             $(divOwerlay).hide();
+                                            player.stopAd();
                                         }).css('cursor', 'pointer');
                                         clearInterval(counter);
                                     }
@@ -244,6 +259,7 @@
                                         $("#spanStatus").text('Close >>').click(function() {
                                             $(divModal).hide();
                                             $(divOwerlay).hide();
+                                            player.stopAd();
                                         }).css('cursor', 'pointer');
                                         clearInterval(counter);
                                     }
@@ -266,23 +282,7 @@
                                 }, 1000);
                                 break;
                         }
-                        var player = new VASTPlayer(document.getElementById('newVastDiv'));
-
-                        player.once('AdStopped', function() {
-                            $(divModal).hide();
-                            $(divOwerlay).hide();
-                            console.log('Ad finished playback!');
-                        });
-
-                        player.load(
-                            adUrl
-                        ).then(function startAd() {
-                            return player.startAd();
-                        }).catch(function(reason) {
-                            setTimeout(function() {
-                                throw reason;
-                            }, 0);
-                        });
+                        player.startAd();
                         return internalCallback(subjects); // call internal callback 
                     },
 
@@ -296,8 +296,16 @@
                         }
                     }
                 }
-            }) // create modal
-            .trigger('show');
+            }).trigger('show'); // create modal;
+        }).catch(function(reason) {
+            $(divModal).hide();
+            $(divOwerlay).hide();
+            player.stopAd();
+            setTimeout(function() {
+                throw reason;
+            }, 0);
+        });
+
 
         function fullScreenDivs() {
             var modal = {
@@ -310,6 +318,7 @@
                 "min-width": "450px",
                 "max-height": "426px",
                 overflow: "hidden",
+                display: "none",
                 "max-width": "750px"
             };
             var owClosed = {
@@ -323,6 +332,7 @@
                 height: "100%",
                 width: "100%",
                 background: "#424242",
+                display: "none",
                 opacity: "0.8"
             }
             divOwerlay = $('<div/>')

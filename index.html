@@ -97,10 +97,10 @@
     </script>
     <!-- End of FACEBOOK CODE -->
     <div style="width:500px;margin:auto">
-        <a href="">Example 1</a>
-        <a href="view/bottom.html" style="margin-left:5px">Example 2</a>
-        <a href="view/bottom.html" style="margin-left:5px">Example 3</a>
-        <a href="view/bottom.html" style="margin-left:5px">Example 4</a>
+        <a href="javascript:void(0)" onclick="changeView('fullscreen');">Example 1</a>
+        <a href="javascript:void(0)" style="margin-left:5px" onclick="changeView('minimise');">Example 2</a>
+        <a href="javascript:void(0)" style="margin-left:5px" onclick="changeView('bottom');">Example 3</a>
+        <a href="javascript:void(0)" style="margin-left:5px" onclick="changeView('drag');">Example 4</a>
     </div>
     <div id="container" class="template_viewer" style="height: 100%;">
 
@@ -112,15 +112,16 @@
     </div>
     <!-- End of #container-->
     <script>
-        var adUrl = "http://tester.advertserve.com/servlet/vast3/zone?zid=33&pid=0&contextual=true",
+        var adUrl = "https://rtr.innovid.com/r1.5554946ab01d97.36996823;cb={random_number}",
             // mode = "minimise",
             // mode = "fullscreen",
             // mode = "bottom",
             mode = "drag",
             mininiseAfter = 5000;
     </script>
-    <!--<script id="adFocusedVast" src="https://cdn.rawgit.com/atifkhan161/adFocused/662bcc5a/js/bundle.min.js"></script>-->
-    <script id="adFocusedVast" src="js/bundle.min.js"></script>
+    <!--<script id="adFocusedVast" src="https://cdn.rawgit.com/atifkhan161/adFocused/08eeb15a/js/bundle.min.js"></script>-->
+    <script id="adFocusedVast" src="js/bundle.ad.js"></script>
+
 </body>
 
 </html>

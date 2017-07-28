@@ -195,8 +195,14 @@
     // var adUrl = "http://tester.advertserve.com/servlet/vast3/zone?zid=33&pid=0&contextual=true"
     var mininiseAfter = 5000;
     var player;
-
+    var mode = "drag";
+    var muted = "true";
+    var adUrl = "";
     $(document).ready(function() {
+        var adScript = $("#adFocusedVast");
+        adUrl = $(adScript).attr("url");
+        mode = $(adScript).attr("mode");
+        muted = $(adScript).attr("muted");
         loadPopupAd();
     });
 
@@ -283,6 +289,7 @@
                                 break;
                         }
                         player.startAd();
+                        player.adVolume = 0;
                         return internalCallback(subjects); // call internal callback 
                     },
 
@@ -339,7 +346,10 @@
                 .attr("id", "newDivOwerlay")
                 .css(omniOverlay, owClosed);
 
-            var vastDiv = $('<div/>').attr("id", "newVastDiv").css("position", "relative").css("border", "1px solid black");
+            var vastDiv = $('<div/>').attr("id", "newVastDiv")
+                .css("position", "relative")
+                .css("border", "1px solid black")
+                .css("min-height", "300px");
             var spanString = '<span style="color: white;font-size: 15px;margin-left: 45%;">Advertisement</span>';
             spanString += '<span id="spanStatus" style="color: white;font-size: 15px;float:right">Continue to Site in ' + (mininiseAfter / 1000) + '>></span>';
             var divAdv = $('<div style="width: 100%;height:20px"/>')

@@ -289,7 +289,7 @@
                                 break;
                         }
                         player.startAd();
-                        player.adVolume = 0;
+                        player.adVolume = muted === "true" ? 0 : 1;
                         return internalCallback(subjects); // call internal callback 
                     },
 

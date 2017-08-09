@@ -3,7 +3,7 @@
         define(['jquery'], factory); // AMD. Register as anonymous module.
     } else {
         var t = this,
-            i = "https://code.jquery.com/jquery-3.2.1.slim.min.js",
+            i = "https://ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js",
             n = window;
         loadResource("jquery", i, "script", function() {
             // var t = n.jQuery.noConflict(!0);
@@ -234,76 +234,79 @@
         player.load(
             adUrl
         ).then(function startAd() {
+            if (player.adDuration > 0) {
+                return $(divModal).omniWindow({
+                    callbacks: {
+                        afterShow: function(subjects, internalCallback) {
+                            $(divModal).show();
+                            $(divOwerlay).show();
+                            switch (mode) {
+                                case "fullscreen":
+                                    var counter = setInterval(function() {
+                                        if (mininiseAfter > 0) {
+                                            mininiseAfter = mininiseAfter - 1000;
+                                            $("#spanStatus").text('Continue to Site in ' + (mininiseAfter / 1000) + '>>');
+                                        } else {
+                                            $("#spanStatus").text('Continue to Site >>').click(function() {
+                                                $(divModal).hide();
+                                                $(divOwerlay).hide();
+                                                player.stopAd();
+                                            }).css('cursor', 'pointer');
+                                            clearInterval(counter);
+                                        }
+                                    }, 1000);
+                                    break;
+                                case "bottom":
+                                    var counter = setInterval(function() {
+                                        if (mininiseAfter > 0) {
+                                            mininiseAfter = mininiseAfter - 1000;
+                                            $("#spanStatus").text('Close in ' + (mininiseAfter / 1000) + '>>');
+                                        } else {
+                                            $("#spanStatus").text('Close >>').click(function() {
+                                                $(divModal).hide();
+                                                $(divOwerlay).hide();
+                                                player.stopAd();
+                                            }).css('cursor', 'pointer');
+                                            clearInterval(counter);
+                                        }
+                                    }, 1000);
+                                    break;
+                                case "drag":
 
-            return $(divModal).omniWindow({
-                callbacks: {
-                    afterShow: function(subjects, internalCallback) {
-                        $(divModal).show();
-                        $(divOwerlay).show();
-                        switch (mode) {
-                            case "fullscreen":
-                                var counter = setInterval(function() {
-                                    if (mininiseAfter > 0) {
-                                        mininiseAfter = mininiseAfter - 1000;
-                                        $("#spanStatus").text('Continue to Site in ' + (mininiseAfter / 1000) + '>>');
-                                    } else {
-                                        $("#spanStatus").text('Continue to Site >>').click(function() {
-                                            $(divModal).hide();
-                                            $(divOwerlay).hide();
-                                            player.stopAd();
-                                        }).css('cursor', 'pointer');
-                                        clearInterval(counter);
-                                    }
-                                }, 1000);
-                                break;
-                            case "bottom":
-                                var counter = setInterval(function() {
-                                    if (mininiseAfter > 0) {
-                                        mininiseAfter = mininiseAfter - 1000;
-                                        $("#spanStatus").text('Close in ' + (mininiseAfter / 1000) + '>>');
-                                    } else {
-                                        $("#spanStatus").text('Close >>').click(function() {
-                                            $(divModal).hide();
-                                            $(divOwerlay).hide();
-                                            player.stopAd();
-                                        }).css('cursor', 'pointer');
-                                        clearInterval(counter);
-                                    }
-                                }, 1000);
-                                break;
-                            case "drag":
-
-                                break;
-                            case "minimise":
-                                var counter = setInterval(function() {
-                                    if (mininiseAfter > 0) {
-                                        mininiseAfter = mininiseAfter - 1000;
-                                        $("#spanStatus").text('Minimize in ' + (mininiseAfter / 1000) + '>>');
-                                    } else {
-                                        $("#spanStatus").text('Minimize >>').click(function() {
-                                            minimisePopUp();
-                                        }).css('cursor', 'pointer');
-                                        clearInterval(counter);
-                                    }
-                                }, 1000);
-                                break;
-                        }
-                        player.startAd();
-                        player.adVolume = muted === "true" ? 0 : 1;
-                        return internalCallback(subjects); // call internal callback 
-                    },
-
-                    beforeHide: function(subjects, internalCallback) {
-
-                        if (player.remainingTime() > 0) {
-
-                            return false; // doesn't allow to hide! 
-                        } else {
+                                    break;
+                                case "minimise":
+                                    var counter = setInterval(function() {
+                                        if (mininiseAfter > 0) {
+                                            mininiseAfter = mininiseAfter - 1000;
+                                            $("#spanStatus").text('Minimize in ' + (mininiseAfter / 1000) + '>>');
+                                        } else {
+                                            $("#spanStatus").text('Minimize >>').click(function() {
+                                                minimisePopUp();
+                                            }).css('cursor', 'pointer');
+                                            clearInterval(counter);
+                                        }
+                                    }, 1000);
+                                    break;
+                            }
+                            player.startAd();
+                            player.adVolume = muted === "true" ? 0 : 1;
                             return internalCallback(subjects); // call internal callback 
+                        },
+
+                        beforeHide: function(subjects, internalCallback) {
+
+                            if (player.remainingTime() > 0) {
+
+                                return false; // doesn't allow to hide! 
+                            } else {
+                                return internalCallback(subjects); // call internal callback 
+                            }
                         }
                     }
-                }
-            }).trigger('show'); // create modal;
+                }).trigger('show'); // create modal;
+            } else {
+                return false;
+            }
         }).catch(function(reason) {
             $(divModal).hide();
             $(divOwerlay).hide();

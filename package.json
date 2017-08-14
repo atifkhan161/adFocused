@@ -2,10 +2,17 @@
     "name": "modalad-webapp",
     "description": "A Web app that display vast ads.",
     "scripts": {
-        "start": "harp server --port $PORT"
+        "start": "harp server --port $PORT",
+        "serve": "light-server * -s . -p 4000 -w '*'",
+        "build": "gulp bundle-ad"
     },
     "dependencies": {
-        "harp": "*"
+        "harp": "*",
+        "pump": "^1.0.2"
     },
-    "version": "0.0.1"
+    "version": "0.0.1",
+    "devDependencies": {
+        "gulp": "^3.9.1",
+        "gulp-uglify": "^3.0.0"
+    }
 }
